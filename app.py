@@ -1,4 +1,8 @@
 import streamlit as st
+from gemini import (
+    setup_gemini,
+    ask_gemini
+)
 from database import (
     create_database,
     create_user,
@@ -19,6 +23,9 @@ st.set_page_config(
     page_icon="🩺",
     layout="wide"
 )
+api_key = st.secrets["GEMINI_API_KEY"]
+
+setup_gemini(api_key)
 
 create_database()
 
@@ -147,25 +154,17 @@ def coordinator_agent(user_text):
 
 def agent_response(agent, question):
 
-    responses = {
+    prompt = f"""
+You are the {agent} in MediGuide AI.
 
-        "🚨 Emergency Agent":
-        "This may need urgent attention. Please contact emergency medical services or a healthcare professional.",
+User question:
+{question}
 
-        "🧠 Mental Wellness Agent":
-        "Try relaxation techniques, healthy routines, talking with trusted people, and consider professional support if needed.",
+Give a helpful, safe, and clear health guidance response.
+Do not diagnose. Encourage professional medical help when needed.
+"""
 
-        "🥗 Lifestyle Agent":
-        "Focus on balanced nutrition, good sleep habits, hydration, and regular physical activity.",
-
-        "🩺 Symptom Agent":
-        "Track your symptoms, rest, stay hydrated, and consult a healthcare professional if symptoms are serious or continue.",
-
-        "📚 Health Education Agent":
-        "I can provide general health information and awareness guidance."
-    }
-
-    return responses[agent]
+    return ask_gemini(prompt)
 
 
 
