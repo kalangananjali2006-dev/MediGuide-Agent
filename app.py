@@ -30,57 +30,120 @@ if not st.session_state.logged_in:
 
     st.markdown(
         """
-        <h1 style='text-align:center;'>
+        <div style="
+        text-align:center;
+        padding:20px;
+        ">
+
+        <h1 style="color:#2E86C1;">
         🩺 MediGuide AI
         </h1>
 
-        <p style='text-align:center;'>
-        Your Agentic AI Health & Wellness Assistant
+        <p>
+        Agentic AI Health & Wellness Assistant
         </p>
+
+        <p>
+        Your intelligent health companion powered by specialized AI agents.
+        </p>
+
+        </div>
         """,
         unsafe_allow_html=True
     )
-tab1, tab2 = st.tabs(
-    ["🔐 Login", "📝 Create Account"]
-)
 
 
-with tab1:
-
-    username = st.text_input(
-        "Username",
-        key="login_username"
-    )
-
-    password = st.text_input(
-        "Password",
-        type="password",
-        key="login_password"
+    tab1, tab2 = st.tabs(
+        [
+            "🔐 Login",
+            "📝 Create Account"
+        ]
     )
 
 
-    if st.button(
-        "Login",
-        key="login_btn"
-    ):
+    with tab1:
 
-        if check_user(username, password):
+        st.subheader("Welcome Back 👋")
 
-            st.session_state.logged_in = True
 
-            st.session_state.username = username
+        username = st.text_input(
+            "Username",
+            key="login_username"
+        )
 
-            st.success(
-                "Login successful"
-            )
+        password = st.text_input(
+            "Password",
+            type="password",
+            key="login_password"
+        )
 
-            st.rerun()
 
-        else:
+        if st.button(
+            "Login",
+            key="login_btn"
+        ):
 
-            st.error(
-                "Invalid username or password"
-            )
+            if check_user(
+                username,
+                password
+            ):
+
+                st.session_state.logged_in = True
+
+                st.session_state.username = username
+
+                st.success(
+                    "Login successful"
+                )
+
+                st.rerun()
+
+            else:
+
+                st.error(
+                    "Invalid username or password"
+                )
+
+
+    with tab2:
+
+        st.subheader("Create Your Account 🚀")
+
+
+        new_username = st.text_input(
+            "Choose Username",
+            key="signup_username"
+        )
+
+        new_password = st.text_input(
+            "Choose Password",
+            type="password",
+            key="signup_password"
+        )
+
+
+        if st.button(
+            "Create Account",
+            key="signup_btn"
+        ):
+
+            if create_user(
+                new_username,
+                new_password
+            ):
+
+                st.success(
+                    "Account created! Please login."
+                )
+
+            else:
+
+                st.error(
+                    "Username already exists"
+                )
+
+
+    st.stop()
 
 
 
