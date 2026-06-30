@@ -413,22 +413,19 @@ user_input = st.chat_input(
 
 if user_input:
 
-    selected_agent = coordinator_agent(user_input)
-
-answer = agent_response(
-   selected_agent,
-   user_input
+  answer = agent_response(
+     selected_agent,
+     user_input
 )
 
-save_chat(
-    st.session_state.username,
-    selected_agent,
-    user_input,
+  save_chat(
+     st.session_state.username,
+     selected_agent,
+     user_input,
     answer
 )
-st.write(answer)
    
-    st.session_state.messages.append(
+  st.session_state.messages.append(
         {
             "time": datetime.now().strftime("%H:%M"),
             "user": user_input,
@@ -436,7 +433,7 @@ st.write(answer)
             "answer": answer
         }
     )
-
+  st.write(answer)
 
 
 # Chat display
