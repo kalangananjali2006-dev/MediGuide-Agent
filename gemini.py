@@ -11,8 +11,7 @@ def setup_gemini(api_key):
 def ask_gemini(prompt):
 
     model = genai.GenerativeModel(
-    "gemini-2.0-flash"
-
+        "gemini-2.5-flash"
     )
 
     response = model.generate_content(
