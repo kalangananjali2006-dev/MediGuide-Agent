@@ -23,9 +23,13 @@ st.set_page_config(
     page_icon="🩺",
     layout="wide"
 )
-api_key = st.secrets["GEMINI_API_KEY"]
+try:
+    api_key = st.secrets["GEMINI_API_KEY"]
+    setup_gemini(api_key)
 
-setup_gemini(api_key)
+except Exception as e:
+    st.error("Gemini API setup error")
+    st.write(e)
 
 create_database()
 
