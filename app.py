@@ -67,7 +67,25 @@ if st.button("Send"):
         agent = choose_agent(user)
 
         st.success(
-            f"Agent selected: {agent}"
+            f"Selected Agent: {agent}"
+        )
+
+        st.write(
+            "🤖 MediGuide AI Response:"
+        )
+
+        st.write(
+            f"""
+Your question:
+{user}
+
+The {agent} is analyzing your request.
+
+General guidance:
+- Maintain healthy habits
+- Monitor your wellbeing
+- Consult a healthcare professional for serious concerns
+"""
         )
 
         st.write(
