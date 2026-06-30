@@ -19,7 +19,17 @@ st.info(
 
 
 def choose_agent(message):
+        emergency_words = [
+        "chest pain",
+        "can't breathe",
+        "difficulty breathing",
+        "emergency",
+        "severe bleeding"
+    ]
 
+    for word in emergency_words:
+        if word in message.lower():
+            return "🚨 Emergency Alert Agent"
     message = message.lower()
 
     if "stress" in message or "anxiety" in message:
