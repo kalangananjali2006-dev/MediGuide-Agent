@@ -120,10 +120,75 @@ MediGuide AI suggests:
 - Monitor your wellbeing
 - Seek professional medical help if symptoms are serious
 """
+import streamlit as st
+
+st.set_page_config(
+    page_title="MediGuide AI",
+    page_icon="🩺"
+)
+
+st.title("🩺 MediGuide AI")
+st.subheader("Agentic AI Health & Wellness Assistant")
+
+st.info(
+    "SDG 3: Good Health and Well-being\n\n"
+    "This AI provides general health information only."
+)
+
+
+def choose_agent(message):
+
+    message = message.lower()
+
+    if "stress" in message or "anxiety" in message:
+        return "🧠 Mental Wellness Agent"
+
+    elif "sleep" in message or "food" in message or "exercise" in message:
+        return "🥗 Lifestyle Agent"
+
+    elif "pain" in message or "fever" in message:
+        return "🩺 Symptom Agent"
+
+    else:
+        return "📚 Health Education Agent"
+
+
+
+def get_response(message, agent):
+
+    return f"""
+**Agent:** {agent}
+
+I analyzed your question:
+
+{message}
+
+General guidance:
+- Maintain healthy habits
+- Track your wellbeing
+- Consult a healthcare professional for serious concerns
+
+"""
+
+
+user = st.text_input("Ask MediGuide AI:")
+
+
+if st.button("Send"):
+
+    if user:
+
+        agent = choose_agent(user)
+
+        st.success(
+            "Selected Agent: " + agent
+        )
+
+        st.write(
+            get_response(user, agent)
         )
 
 
-# Sidebar
 st.sidebar.title("AI Agents")
 
 st.sidebar.write(
@@ -138,10 +203,4 @@ st.sidebar.write(
 
 📚 Health Education Agent
 """
-)
-
-st.sidebar.title("SDG Goal")
-
-st.sidebar.write(
-"SDG 3: Good Health and Well-being"
 )
