@@ -1,4 +1,4 @@
-ooimport streamlit as st
+import streamlit as st
 from database import (
     create_database,
     create_user,
