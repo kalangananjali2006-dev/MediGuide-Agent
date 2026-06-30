@@ -108,12 +108,16 @@ and consult a healthcare professional for serious concerns.
 
 st.subheader("Chat History")
 
+st.subheader("Chat History")
+
 for chat in st.session_state.history:
 
     st.write("👤 User:")
-    st.write(chat["user"])
+    st.write(chat["question"])
 
-    st.progress(0.85)
+    st.success(
+        chat["agent"]
+    )
 
 st.caption(
     "Coordinator Agent → Specialist Agent → Health Guidance"
