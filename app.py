@@ -1,4 +1,11 @@
 import streamlit as st
+USERS = {
+    "demo": "1234",
+    "admin": "admin123"
+}
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 from datetime import datetime
 
 
@@ -8,6 +15,33 @@ st.set_page_config(
     layout="wide"
 )
 
+if not st.session_state.logged_in:
+
+    st.title("🔐 MediGuide AI Login")
+
+    username = st.text_input("Username")
+
+    password = st.text_input(
+        "Password",
+        type="password"
+    )
+
+    if st.button("Sign In"):
+
+        if username in USERS and USERS[username] == password:
+
+            st.session_state.logged_in = True
+
+            st.success("Login successful")
+
+            st.rerun()
+
+        else:
+
+            st.error("Wrong username or password")
+
+
+    st.stop()
 
 # ---------- Session ----------
 if "messages" not in st.session_state:
@@ -76,6 +110,11 @@ MediGuide AI uses multiple specialized agents coordinated by an AI routing syste
 
 # Sidebar
 
+if st.sidebar.button("Logout"):
+
+    st.session_state.logged_in = False
+
+    st.rerun()
 st.sidebar.title("🤖 AI Agents")
 
 st.sidebar.write(
