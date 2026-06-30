@@ -64,13 +64,11 @@ if not st.session_state.logged_in:
 
             if check_user(username, password):
 
-                st.session_state.logged_in = True
+    st.session_state.logged_in = True
 
-                st.success(
-                    "Welcome to MediGuide AI"
-                )
+    st.session_state.username = username
 
-                st.rerun()
+    st.rerun()
 
             else:
 
