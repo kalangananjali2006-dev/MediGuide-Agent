@@ -265,12 +265,21 @@ MediGuide AI uses multiple specialized agents coordinated by an AI routing syste
 # Sidebar
 
       
-st.sidebar.title("🤖 AI Agents")
-if st.sidebar.button("Logout"):
+st.sidebar.title("🤖 AI Agent System")
 
-    st.session_state.logged_in = False
+st.sidebar.info(
+"""
+Coordinator AI routes your query to the right specialist agent.
+"""
+)
 
-    st.rerun()
+st.sidebar.markdown("### Active Agents")
+
+st.sidebar.success("🧠 Mental Wellness Agent")
+st.sidebar.success("🩺 Symptom Agent")
+st.sidebar.success("🥗 Lifestyle Agent")
+st.sidebar.success("📚 Health Education Agent")
+st.sidebar.warning("🚨 Emergency Agent")
      
 st.sidebar.write(
 """
