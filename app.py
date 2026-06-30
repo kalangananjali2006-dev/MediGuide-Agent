@@ -147,18 +147,54 @@ def coordinator_agent(user_text):
 
 
 def agent_response(agent, question):
+def agent_response(agent, question):
 
-    prompt = f"""
-You are the {agent} in MediGuide AI.
+    if agent == "🚨 Emergency Agent":
 
-User question:
-{question}
+        return (
+            "This may require urgent attention. "
+            "If symptoms are severe, contact emergency services."
+        )
 
-Give a helpful, safe, and clear health guidance response.
-Do not diagnose. Encourage professional medical help when needed.
-"""
 
-    return ask_gemini(prompt)
+    elif agent == "🧠 Mental Wellness Agent":
+
+        return (
+            "I understand. Try taking some time to relax, "
+            "practice breathing exercises, and talk to someone you trust."
+        )
+
+
+    elif agent == "🩺 Symptom Agent":
+
+        return (
+            "I can help you understand symptoms. "
+            "Monitor your condition and consider consulting a healthcare professional."
+        )
+
+
+    elif agent == "🥗 Lifestyle Agent":
+
+        return (
+            "Maintain a balanced diet, regular activity, "
+            "good sleep, and healthy daily habits."
+        )
+
+
+    elif agent == "📚 Health Education Agent":
+
+        return (
+            "I can explain health topics in simple terms "
+            "and provide general information."
+        )
+
+
+    else:
+
+        return (
+            "I am your MediGuide AI assistant. "
+            "How can I help you today?"
+        )
 
 
 
