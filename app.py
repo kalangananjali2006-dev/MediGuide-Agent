@@ -1,4 +1,9 @@
 import streamlit as st
+from database import (
+    create_database,
+    create_user,
+    check_user
+)
 USERS = {
     "demo": "1234",
     "admin": "admin123"
@@ -15,6 +20,11 @@ st.set_page_config(
     layout="wide"
 )
 
+create_database()
+
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 if not st.session_state.logged_in:
 
     st.title("🔐 MediGuide AI Login")
@@ -95,7 +105,68 @@ def agent_response(agent, question):
 
 
 # ---------- UI ----------
+if not st.session_state.logged_in:
 
+    st.title("🔐 MediGuide AI Account")
+
+    option = st.selectbox(
+        "Choose option",
+        [
+            "Login",
+            "Create Account"
+        ]
+    )
+
+
+    username = st.text_input(
+        "Username"
+    )
+
+    password = st.text_input(
+        "Password",
+        type="password"
+    )
+
+
+    if option == "Create Account":
+
+        if st.button("Sign Up"):
+
+            if create_user(username, password):
+
+                st.success(
+                    "Account created. Now login."
+                )
+
+            else:
+
+                st.error(
+                    "Username already exists"
+                )
+
+
+    else:
+
+        if st.button("Login"):
+
+            if check_user(username, password):
+
+                st.session_state.logged_in = True
+
+                st.success(
+                    "Welcome!"
+                )
+
+                st.rerun()
+
+            else:
+
+                st.error(
+                    "Invalid login"
+                )
+
+
+    st.stop()
 st.title("🩺 MediGuide AI")
 st.subheader("Agentic AI Health & Wellness Assistant")
 
@@ -115,6 +186,12 @@ if st.sidebar.button("Logout"):
     st.session_state.logged_in = False
 
     st.rerun()
+  if st.sidebar.button("Logout"):
+
+    st.session_state.logged_in = False
+
+    st.rerun()
+      
 st.sidebar.title("🤖 AI Agents")
 
 st.sidebar.write(
