@@ -118,6 +118,7 @@ if not st.session_state.logged_in:
         if username in USERS and USERS[username] == password:
 
             st.session_state.logged_in = True
+            st.session_state.username = username
 
             st.success("Login successful")
 
@@ -245,6 +246,11 @@ if not st.session_state.logged_in:
 
     st.stop()
 st.title("🩺 MediGuide AI")
+if "username" in st.session_state:
+
+    st.success(
+        f"Welcome, {st.session_state.username} 👋"
+    )
 st.subheader("Agentic AI Health & Wellness Assistant")
 
 st.info(
