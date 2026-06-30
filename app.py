@@ -416,9 +416,16 @@ if user_input:
     selected_agent = coordinator_agent(user_input)
 
     answer = agent_response(
-        selected_agent,
-        user_input
-    )
+    selected_agent,
+    user_input
+)
+
+save_chat(
+    st.session_state.username,
+    selected_agent,
+    user_input,
+    answer
+)
 
    save_chat(
     st.session_state.username,
