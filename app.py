@@ -50,13 +50,24 @@ User message:
 Reply only with the agent name.
 """
 
-    try:
-    response = model.generate_content(prompt)
-    return response.text
-except Exception as e:
-    return "AI connection error: " + str(e)
+    def health_agent(message, agent):
 
-    return response.text
+    prompt = f"""
+You are the {agent} in MediGuide AI.
+
+User:
+{message}
+
+Give a helpful, safe health response.
+Do not diagnose.
+"""
+
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+
+    except Exception as e:
+        return "AI connection error: " + str(e)
 
 # Chat box
 user = st.text_input(
