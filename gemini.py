@@ -1,9 +1,14 @@
-import google.generativeai as genai
+from google import genai
+
+
+client = None
 
 
 def setup_gemini(api_key):
 
-    genai.configure(
+    global client
+
+    client = genai.Client(
         api_key=api_key
     )
 
@@ -12,27 +17,9 @@ def ask_gemini(prompt):
 
     try:
 
-        available_models = []
-
-        for model in genai.list_models():
-
-            if "generateContent" in model.supported_generation_methods:
-
-                available_models.append(model.name)
-
-
-        if not available_models:
-
-            return "No Gemini model available for this API key."
-
-
-        model = genai.GenerativeModel(
-            available_models[0]
-        )
-
-
-        response = model.generate_content(
-            prompt
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
         )
 
         return response.text
