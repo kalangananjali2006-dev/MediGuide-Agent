@@ -48,19 +48,25 @@ if not st.session_state.logged_in:
 
     with tab1:
 
-        username = st.text_input(
-            "Username",
-            key="login_user"
-        )
+    username = st.text_input(
+    "Username",
+    key="login_username"
+)
 
-        password = st.text_input(
-            "Password",
-            type="password",
-            key="login_pass"
-        )
+password = st.text_input(
+    "Password",
+    type="password",
+    key="login_password"
+)
 
-if st.button("Login"):
-
+ st.button(
+    "Login",
+    key="login_button"
+)
+st.button(
+    "Create Account",
+    key="signup_btn"
+)
     result = check_user(
         username,
         password
