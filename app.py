@@ -39,70 +39,84 @@ if not st.session_state.logged_in:
         """,
         unsafe_allow_html=True
     )
+tab1, tab2 = st.tabs(
+    ["🔐 Login", "📝 Create Account"]
+)
 
 
-    tab1, tab2 = st.tabs(
-        ["🔐 Login", "📝 Create Account"]
-    )
-
-
-    with tab1:
+with tab1:
 
     username = st.text_input(
-    "Username",
-    key="login_username"
-)
-
-password = st.text_input(
-    "Password",
-    type="password",
-    key="login_password"
-)
-
- st.button(
-    "Login",
-    key="login_button"
-)
-st.button(
-    "Create Account",
-    key="signup_btn"
-)
-    result = check_user(
-        username,
-        password
+        "Username",
+        key="login_username"
     )
 
-    if result:
+    password = st.text_input(
+        "Password",
+        type="password",
+        key="login_password"
+    )
 
-        st.session_state.logged_in = True
-        st.session_state.username = username
 
-        st.success("Login successful")
+    if st.button(
+        "Login",
+        key="login_btn"
+    ):
 
-        st.rerun()
-
-    else:
-
-        st.error("Invalid username or password")
-        
-
-    if st.button("Sign In"):
-
-        if username in USERS and USERS[username] == password:
+        if check_user(username, password):
 
             st.session_state.logged_in = True
+
             st.session_state.username = username
 
-            st.success("Login successful")
+            st.success(
+                "Login successful"
+            )
 
             st.rerun()
 
         else:
 
-            st.error("Wrong username or password")
+            st.error(
+                "Invalid username or password"
+            )
 
 
-    st.stop()
+
+with tab2:
+
+    new_username = st.text_input(
+        "Create Username",
+        key="signup_username"
+    )
+
+    new_password = st.text_input(
+        "Create Password",
+        type="password",
+        key="signup_password"
+    )
+
+
+    if st.button(
+        "Create Account",
+        key="signup_btn"
+    ):
+
+        if create_user(
+            new_username,
+            new_password
+        ):
+
+            st.success(
+                "Account created. Please login."
+            )
+
+        else:
+
+            st.error(
+                "Username already exists"
+            )
+
 
 # ---------- Session ----------
 if "messages" not in st.session_state:
