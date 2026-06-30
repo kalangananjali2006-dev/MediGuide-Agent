@@ -22,7 +22,10 @@ def ask_gemini(prompt):
             contents=prompt
         )
 
-        return response.text
+        if response.text:
+    return response.text
+
+return "AI service temporarily unavailable. Please try again."
 
 
     except Exception as e:
