@@ -50,9 +50,19 @@ if st.button("Send"):
             "Your question: " + user
         )
 
-        st.write(
-            "The selected agent is providing general health guidance."
-        )
+        response = f"""
+You are the {agent}.
+
+User question:
+{user}
+
+Give a helpful health and wellness response.
+Keep it simple.
+Do not diagnose.
+Suggest professional help if needed.
+"""
+
+st.write(response)
 
 
 st.sidebar.title("AI Agents")
