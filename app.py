@@ -50,7 +50,11 @@ User message:
 Reply only with the agent name.
 """
 
+    try:
     response = model.generate_content(prompt)
+    return response.text
+except Exception as e:
+    return "AI connection error: " + str(e)
 
     return response.text
 
