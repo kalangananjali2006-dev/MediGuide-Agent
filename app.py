@@ -101,7 +101,11 @@ for chat in st.session_state.history:
     st.write("👤 User:")
     st.write(chat["user"])
 
-    st.success(chat["agent"])
+    st.progress(0.85)
+
+st.caption(
+    "Coordinator Agent → Specialist Agent → Health Guidance"
+)
 
     st.write(chat["response"])
 
