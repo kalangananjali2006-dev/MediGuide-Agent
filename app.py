@@ -27,14 +27,91 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if not st.session_state.logged_in:
 
-    st.title("🔐 MediGuide AI Login")
+    st.markdown(
+        """
+        <h1 style='text-align:center;'>
+        🩺 MediGuide AI
+        </h1>
 
-    username = st.text_input("Username")
-
-    password = st.text_input(
-        "Password",
-        type="password"
+        <p style='text-align:center;'>
+        Your Agentic AI Health & Wellness Assistant
+        </p>
+        """,
+        unsafe_allow_html=True
     )
+
+
+    tab1, tab2 = st.tabs(
+        ["🔐 Login", "📝 Create Account"]
+    )
+
+
+    with tab1:
+
+        username = st.text_input(
+            "Username",
+            key="login_user"
+        )
+
+        password = st.text_input(
+            "Password",
+            type="password",
+            key="login_pass"
+        )
+
+
+        if st.button("Login"):
+
+            if check_user(username, password):
+
+                st.session_state.logged_in = True
+
+                st.success(
+                    "Welcome to MediGuide AI"
+                )
+
+                st.rerun()
+
+            else:
+
+                st.error(
+                    "Invalid username or password"
+                )
+
+
+    with tab2:
+
+        new_username = st.text_input(
+            "Create Username",
+            key="new_user"
+        )
+
+        new_password = st.text_input(
+            "Create Password",
+            type="password",
+            key="new_pass"
+        )
+
+
+        if st.button("Create Account"):
+
+            if create_user(
+                new_username,
+                new_password
+            ):
+
+                st.success(
+                    "Account created. Please login."
+                )
+
+            else:
+
+                st.error(
+                    "Username already exists"
+                )
+
+
+    st.stop()
 
     if st.button("Sign In"):
 
