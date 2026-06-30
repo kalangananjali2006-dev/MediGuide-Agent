@@ -146,7 +146,7 @@ def coordinator_agent(user_text):
 
 
 
-def agent_response(agent, question):
+
 def agent_response(agent, question):
 
     if agent == "🚨 Emergency Agent":
