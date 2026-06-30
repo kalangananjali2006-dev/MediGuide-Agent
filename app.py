@@ -5,6 +5,10 @@ st.set_page_config(
     page_icon="🩺"
 )
 
+if "history" not in st.session_state:
+    st.session_state.history = []
+
+
 st.title("🩺 MediGuide AI")
 st.subheader("Agentic AI Health & Wellness Assistant")
 
@@ -31,6 +35,7 @@ def choose_agent(message):
         return "📚 Health Education Agent"
 
 
+
 user = st.text_input("Ask MediGuide AI:")
 
 
@@ -40,29 +45,37 @@ if st.button("Send"):
 
         agent = choose_agent(user)
 
-        st.success("Selected Agent: " + agent)
-
-        st.write(
-            "🤖 MediGuide AI Response:"
-        )
-
-        st.write(
-            "Your question: " + user
-        )
-
         response = f"""
-You are the {agent}.
+Agent: {agent}
 
-User question:
+Your question:
 {user}
 
-Give a helpful health and wellness response.
-Keep it simple.
-Do not diagnose.
-Suggest professional help if needed.
+Health guidance:
+Maintain healthy habits, stay aware of your wellbeing,
+and consult a healthcare professional for serious concerns.
 """
 
-st.write(response)
+        st.session_state.history.append(
+            {
+                "user": user,
+                "agent": agent,
+                "response": response
+            }
+        )
+
+
+st.subheader("Chat History")
+
+for chat in st.session_state.history:
+
+    st.write("👤 User:")
+    st.write(chat["user"])
+
+    st.success(chat["agent"])
+
+    st.write(chat["response"])
+
 
 
 st.sidebar.title("AI Agents")
