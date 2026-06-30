@@ -1,8 +1,5 @@
 import streamlit as st
-from gemini import (
-    setup_gemini,
-    ask_gemini
-)
+
 from database import (
     create_database,
     create_user,
@@ -23,13 +20,6 @@ st.set_page_config(
     page_icon="🩺",
     layout="wide"
 )
-try:
-    api_key = st.secrets["GEMINI_API_KEY"]
-    setup_gemini(api_key)
-
-except Exception as e:
-    st.error("Gemini API setup error")
-    st.write(e)
 
 create_database()
 
