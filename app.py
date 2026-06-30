@@ -59,10 +59,12 @@ if not st.session_state.logged_in:
             key="login_pass"
         )
 
+if st.button("Login"):
 
-        if st.button("Login"):
-
-    result = check_user(username, password)
+    result = check_user(
+        username,
+        password
+    )
 
     if result:
 
@@ -76,41 +78,7 @@ if not st.session_state.logged_in:
     else:
 
         st.error("Invalid username or password")
-
-
-    with tab2:
-
-        new_username = st.text_input(
-            "Create Username",
-            key="new_user"
-        )
-
-        new_password = st.text_input(
-            "Create Password",
-            type="password",
-            key="new_pass"
-        )
-
-
-        if st.button("Create Account"):
-
-            if create_user(
-                new_username,
-                new_password
-            ):
-
-                st.success(
-                    "Account created. Please login."
-                )
-
-            else:
-
-                st.error(
-                    "Username already exists"
-                )
-
-
-    st.stop()
+        
 
     if st.button("Sign In"):
 
