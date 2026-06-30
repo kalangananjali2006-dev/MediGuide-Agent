@@ -107,13 +107,13 @@ if not st.session_state.logged_in:
                     "Invalid username or password"
                 )
 
-   tab1, tab2 = st.tabs(
+     tab1, tab2 = st.tabs(
     [
         "🔐 Login",
         "📝 Create Account"
     ]
    )
-    with tab2:
+     with tab2:
 
         st.subheader("Create Your Account 🚀")
 
