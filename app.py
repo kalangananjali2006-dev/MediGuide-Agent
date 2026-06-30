@@ -1,17 +1,5 @@
 import streamlit as st
 
-st.write(
-"""
-### 🌍 Problem
-People need quick access to basic health awareness and wellness support.
-
-### 💡 AI Solution
-MediGuide AI uses multiple agents that collaborate to guide users.
-
-### 🎯 SDG Goal
-SDG 3 - Good Health and Well-being
-"""
-)
 st.set_page_config(
     page_title="MediGuide AI",
     page_icon="🩺"
@@ -22,18 +10,70 @@ if "history" not in st.session_state:
 
 
 st.title("🩺 MediGuide AI")
-st.subheader("Chat History")
+st.subheader("Agentic AI Health & Wellness Assistant")
 
-if "history" in st.session_state:
+st.write(
+"""
+🌍 SDG 3: Good Health and Well-being
 
-    for chat in st.session_state.history:
+MediGuide AI uses multiple agents to provide health awareness support.
+"""
+)
 
-        st.write("👤 User:")
-        st.write(chat["question"])
+
+def choose_agent(message):
+
+    message = message.lower()
+
+    if "chest pain" in message or "emergency" in message:
+        return "🚨 Emergency Alert Agent"
+
+    elif "stress" in message or "anxiety" in message:
+        return "🧠 Mental Wellness Agent"
+
+    elif "sleep" in message or "diet" in message:
+        return "🥗 Lifestyle Agent"
+
+    elif "pain" in message or "fever" in message:
+        return "🩺 Symptom Agent"
+
+    else:
+        return "📚 Health Education Agent"
+
+
+
+user = st.text_input("Ask MediGuide AI")
+
+
+if st.button("Send"):
+
+    if user:
+
+        agent = choose_agent(user)
+
+        st.session_state.history.append(
+            {
+                "question": user,
+                "agent": agent
+            }
+        )
 
         st.success(
-            chat["agent"]
+            "Selected Agent: " + agent
         )
+
+
+
+st.subheader("Chat History")
+
+for chat in st.session_state.history:
+
+    st.write("User:")
+    st.write(chat["question"])
+
+    st.write("Agent:")
+    st.write(chat["agent"])
+
 
 
 st.sidebar.title("AI Agents")
@@ -42,12 +82,14 @@ st.sidebar.write(
 """
 🎯 Coordinator Agent
 
-🩺 Symptom Agent
+🚨 Emergency Agent
 
 🧠 Mental Wellness Agent
 
 🥗 Lifestyle Agent
 
-📚 Health Education Agent
+🩺 Symptom Agent
+
+📚 Education Agent
 """
 )
