@@ -1,5 +1,8 @@
 import streamlit as st
-
+from database_chat import (
+    save_chat,
+    get_chats
+)
 from database import (
     create_database,
     create_user,
@@ -325,6 +328,30 @@ if not st.session_state.logged_in:
 
     st.stop()
 st.title("🩺 MediGuide AI")
+with st.expander("📜 Chat History"):
+
+    chats = get_chats(
+        st.session_state.username
+    )
+
+    for chat in chats:
+
+        st.write(
+            "🤖",
+            chat[0]
+        )
+
+        st.write(
+            "Q:",
+            chat[1]
+        )
+
+        st.write(
+            "A:",
+            chat[2]
+        )
+
+        st.divider()
 if "username" in st.session_state:
 
     st.success(
@@ -393,7 +420,12 @@ if user_input:
         user_input
     )
 
-
+   save_chat(
+    st.session_state.username,
+    selected_agent,
+    user_input,
+    answer
+   )
     st.session_state.messages.append(
         {
             "time": datetime.now().strftime("%H:%M"),
