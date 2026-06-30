@@ -62,29 +62,20 @@ if not st.session_state.logged_in:
 
         if st.button("Login"):
 
-            if check_user(username, password):
+    result = check_user(username, password)
 
-    st.session_state.logged_in = True
+    if result:
 
-    st.session_state.username = username
+        st.session_state.logged_in = True
+        st.session_state.username = username
 
-    st.success(
-        "Welcome!"
-    )
+        st.success("Login successful")
 
-    st.rerun()
+        st.rerun()
 
-else:
+    else:
 
-    st.error(
-        "Invalid username or password"
-    )
-
-            else:
-
-                st.error(
-                    "Invalid username or password"
-                )
+        st.error("Invalid username or password")
 
 
     with tab2:
