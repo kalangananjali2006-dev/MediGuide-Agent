@@ -68,7 +68,17 @@ if not st.session_state.logged_in:
 
     st.session_state.username = username
 
+    st.success(
+        "Welcome!"
+    )
+
     st.rerun()
+
+else:
+
+    st.error(
+        "Invalid username or password"
+    )
 
             else:
 
