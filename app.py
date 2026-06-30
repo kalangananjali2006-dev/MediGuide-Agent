@@ -1,5 +1,17 @@
 import streamlit as st
 
+st.write(
+"""
+### 🌍 Problem
+People need quick access to basic health awareness and wellness support.
+
+### 💡 AI Solution
+MediGuide AI uses multiple agents that collaborate to guide users.
+
+### 🎯 SDG Goal
+SDG 3 - Good Health and Well-being
+"""
+)
 st.set_page_config(
     page_title="MediGuide AI",
     page_icon="🩺"
