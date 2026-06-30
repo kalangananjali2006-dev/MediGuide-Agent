@@ -1,32 +1,59 @@
 import sqlite3
 
 
-def save_chat(username, agent, question, response):
+DB_NAME = "mediguide.db"
 
-    conn = sqlite3.connect(
-        "mediguide.db"
-    )
+
+
+def create_table():
+
+    conn = sqlite3.connect(DB_NAME)
 
     cursor = conn.cursor()
+
 
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS chats
         (
-        username TEXT,
-        agent TEXT,
-        question TEXT,
-        response TEXT
+            username TEXT,
+            agent TEXT,
+            question TEXT,
+            response TEXT
         )
         """
     )
 
 
+    conn.commit()
+
+    conn.close()
+
+
+
+def save_chat(username, agent, question, response):
+
+    create_table()
+
+
+    conn = sqlite3.connect(DB_NAME)
+
+    cursor = conn.cursor()
+
+
     cursor.execute(
         """
         INSERT INTO chats
+        (
+            username,
+            agent,
+            question,
+            response
+        )
+
         VALUES (?, ?, ?, ?)
         """,
+
         (
             username,
             agent,
@@ -44,9 +71,10 @@ def save_chat(username, agent, question, response):
 
 def get_chats(username):
 
-    conn = sqlite3.connect(
-        "mediguide.db"
-    )
+    create_table()
+
+
+    conn = sqlite3.connect(DB_NAME)
 
     cursor = conn.cursor()
 
@@ -57,12 +85,17 @@ def get_chats(username):
         FROM chats
         WHERE username=?
         """,
-        (username,)
+
+        (
+            username,
+        )
     )
 
 
-    data = cursor.fetchall()
+    chats = cursor.fetchall()
+
 
     conn.close()
 
-    return data
+
+    return chats
