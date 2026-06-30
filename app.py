@@ -1,5 +1,55 @@
 import streamlit as st
+def coordinator_agent(question):
 
+    q = question.lower()
+
+
+    if any(word in q for word in [
+        "chest",
+        "breath",
+        "bleeding",
+        "unconscious",
+        "severe pain"
+    ]):
+
+        return "🚨 Emergency Agent"
+
+
+    elif any(word in q for word in [
+        "stress",
+        "anxiety",
+        "sad",
+        "sleep",
+        "mental"
+    ]):
+
+        return "🧠 Mental Wellness Agent"
+
+
+    elif any(word in q for word in [
+        "fever",
+        "pain",
+        "cough",
+        "symptom",
+        "headache"
+    ]):
+
+        return "🩺 Symptom Agent"
+
+
+    elif any(word in q for word in [
+        "diet",
+        "food",
+        "exercise",
+        "fitness"
+    ]):
+
+        return "🥗 Lifestyle Agent"
+
+
+    else:
+
+        return "📚 Health Education Agent"
 from database_chat import save_chat, get_chats
 
 
@@ -212,108 +262,7 @@ selected_agent = st.selectbox(
     "Choose Agent",
     agents
 )
-def agent_response(agent, question):
 
-    q = question.lower()
-
-
-    if agent == "🚨 Emergency Agent":
-
-        if "pain" in q or "bleeding" in q or "breath" in q:
-
-            return (
-                "This may need urgent attention. "
-                "If symptoms are severe, seek emergency medical help."
-            )
-
-        return (
-            "Tell me more about the emergency situation "
-            "so I can guide you better."
-        )
-
-
-    elif agent == "🧠 Mental Wellness Agent":
-
-        if "stress" in q or "anxiety" in q:
-
-            return (
-                "Stress and anxiety can feel overwhelming. "
-                "Try slow breathing, relaxation exercises, "
-                "and consider speaking with someone you trust."
-            )
-
-        elif "sleep" in q:
-
-            return (
-                "For better sleep, keep a regular schedule, "
-                "reduce screen time before bed, and create a calm routine."
-            )
-
-        return (
-            "I can support your mental wellness. "
-            "Tell me what you are currently experiencing."
-        )
-
-
-    elif agent == "🩺 Symptom Agent":
-
-        if "fever" in q:
-
-            return (
-                "Fever can happen due to many causes. "
-                "Rest, stay hydrated, and monitor your symptoms."
-            )
-
-        elif "headache" in q:
-
-            return (
-                "Headaches may have different causes. "
-                "Consider hydration, rest, and tracking triggers."
-            )
-
-        return (
-            "Describe your symptoms, when they started, "
-            "and their severity."
-        )
-
-
-    elif agent == "🥗 Lifestyle Agent":
-
-        if "diet" in q or "food" in q:
-
-            return (
-                "A balanced diet includes vegetables, fruits, "
-                "protein sources, whole grains, and enough water."
-            )
-
-        elif "exercise" in q:
-
-            return (
-                "Regular physical activity supports overall health. "
-                "Start with activities suitable for your fitness level."
-            )
-
-        return (
-            "I can help with nutrition, exercise, and healthy habits."
-        )
-
-
-    elif agent == "📚 Health Education Agent":
-
-        if "diabetes" in q:
-
-            return (
-                "Diabetes affects how the body manages blood sugar. "
-                "Healthy lifestyle choices and medical guidance are important."
-            )
-
-        return (
-            "I can explain health topics. "
-            "Ask me about a specific condition or topic."
-        )
-
-
-    return "How can I help you today?"
 
 
 user_input = st.chat_input(
