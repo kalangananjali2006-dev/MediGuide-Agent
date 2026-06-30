@@ -9,24 +9,18 @@ def setup_gemini(api_key):
 
 def ask_gemini(prompt):
 
-    models = list(genai.list_models())
+    try:
 
-    available_model = None
+        model = genai.GenerativeModel(
+            "gemini-1.5-flash"
+        )
 
-    for m in models:
-        if "generateContent" in m.supported_generation_methods:
-            available_model = m.name
-            break
+        response = model.generate_content(
+            prompt
+        )
 
-    if available_model is None:
-        return "No Gemini model available for this API key."
+        return response.text
 
-    model = genai.GenerativeModel(
-        available_model
-    )
+    except Exception as e:
 
-    response = model.generate_content(
-        prompt
-    )
-
-    return response.text
+        return f"Gemini error: {e}"
