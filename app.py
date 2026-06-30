@@ -1,40 +1,34 @@
 import streamlit as st
+from datetime import datetime
+
 
 st.set_page_config(
     page_title="MediGuide AI",
-    page_icon="🩺"
-)
-
-if "history" not in st.session_state:
-    st.session_state.history = []
-
-
-st.title("🩺 MediGuide AI")
-st.subheader("Agentic AI Health & Wellness Assistant")
-
-st.write(
-"""
-🌍 SDG 3: Good Health and Well-being
-
-MediGuide AI uses multiple agents to provide health awareness support.
-"""
+    page_icon="🩺",
+    layout="wide"
 )
 
 
-def choose_agent(message):
+# ---------- Session ----------
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-    message = message.lower()
 
-    if "chest pain" in message or "emergency" in message:
-        return "🚨 Emergency Alert Agent"
+# ---------- Agent Logic ----------
+def coordinator_agent(user_text):
 
-    elif "stress" in message or "anxiety" in message:
+    text = user_text.lower()
+
+    if any(x in text for x in ["chest pain", "emergency", "can't breathe", "breathing problem"]):
+        return "🚨 Emergency Agent"
+
+    elif any(x in text for x in ["stress", "anxiety", "sad", "mental"]):
         return "🧠 Mental Wellness Agent"
 
-    elif "sleep" in message or "diet" in message:
+    elif any(x in text for x in ["sleep", "diet", "food", "exercise"]):
         return "🥗 Lifestyle Agent"
 
-    elif "pain" in message or "fever" in message:
+    elif any(x in text for x in ["fever", "pain", "symptom", "sick"]):
         return "🩺 Symptom Agent"
 
     else:
@@ -42,41 +36,47 @@ def choose_agent(message):
 
 
 
-user = st.text_input("Ask MediGuide AI")
+def agent_response(agent, question):
 
+    responses = {
 
-if st.button("Send"):
+        "🚨 Emergency Agent":
+        "This may need urgent attention. Please contact emergency medical services or a healthcare professional.",
 
-    if user:
+        "🧠 Mental Wellness Agent":
+        "Try relaxation techniques, healthy routines, talking with trusted people, and consider professional support if needed.",
 
-        agent = choose_agent(user)
+        "🥗 Lifestyle Agent":
+        "Focus on balanced nutrition, good sleep habits, hydration, and regular physical activity.",
 
-        st.session_state.history.append(
-            {
-                "question": user,
-                "agent": agent
-            }
-        )
+        "🩺 Symptom Agent":
+        "Track your symptoms, rest, stay hydrated, and consult a healthcare professional if symptoms are serious or continue.",
 
-        st.success(
-            "Selected Agent: " + agent
-        )
+        "📚 Health Education Agent":
+        "I can provide general health information and awareness guidance."
+    }
 
-
-
-st.subheader("Chat History")
-
-for chat in st.session_state.history:
-
-    st.write("User:")
-    st.write(chat["question"])
-
-    st.write("Agent:")
-    st.write(chat["agent"])
+    return responses[agent]
 
 
 
-st.sidebar.title("AI Agents")
+# ---------- UI ----------
+
+st.title("🩺 MediGuide AI")
+st.subheader("Agentic AI Health & Wellness Assistant")
+
+st.info(
+"""
+🌍 SDG 3: Good Health and Well-being
+
+MediGuide AI uses multiple specialized agents coordinated by an AI routing system.
+"""
+)
+
+
+# Sidebar
+
+st.sidebar.title("🤖 AI Agents")
 
 st.sidebar.write(
 """
@@ -90,6 +90,82 @@ st.sidebar.write(
 
 🩺 Symptom Agent
 
-📚 Education Agent
+📚 Health Education Agent
 """
 )
+
+
+# Input
+
+user_input = st.chat_input(
+    "Ask MediGuide AI..."
+)
+
+
+if user_input:
+
+    selected_agent = coordinator_agent(user_input)
+
+    answer = agent_response(
+        selected_agent,
+        user_input
+    )
+
+
+    st.session_state.messages.append(
+        {
+            "time": datetime.now().strftime("%H:%M"),
+            "user": user_input,
+            "agent": selected_agent,
+            "answer": answer
+        }
+    )
+
+
+
+# Chat display
+
+for msg in st.session_state.messages:
+
+    with st.chat_message("user"):
+        st.write(msg["user"])
+
+
+    with st.chat_message("assistant"):
+
+        st.success(
+            msg["agent"]
+        )
+
+        st.write(
+            msg["answer"]
+        )
+
+
+# Dashboard
+
+st.divider()
+
+st.subheader("📊 Agent Activity Dashboard")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(
+        "Total Queries",
+        len(st.session_state.messages)
+    )
+
+
+with col2:
+
+    if st.session_state.messages:
+        st.metric(
+            "Last Agent",
+            st.session_state.messages[-1]["agent"]
+        )
+    else:
+        st.metric(
+            "Last Agent",
+            "None"
+        )
