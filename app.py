@@ -1,4 +1,4 @@
-import streamlit as st
+ooimport streamlit as st
 from database import (
     create_database,
     create_user,
@@ -181,19 +181,14 @@ MediGuide AI uses multiple specialized agents coordinated by an AI routing syste
 
 # Sidebar
 
+      
+st.sidebar.title("🤖 AI Agents")
 if st.sidebar.button("Logout"):
 
     st.session_state.logged_in = False
 
     st.rerun()
-  if st.sidebar.button("Logout"):
-
-    st.session_state.logged_in = False
-
-    st.rerun()
-      
-st.sidebar.title("🤖 AI Agents")
-
+     
 st.sidebar.write(
 """
 🎯 Coordinator Agent
