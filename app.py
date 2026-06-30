@@ -19,13 +19,32 @@ st.info(
 
 
 def choose_agent(message):
-        emergency_words = [
+
+    message = message.lower()
+
+    emergency_words = [
         "chest pain",
         "can't breathe",
         "difficulty breathing",
         "emergency",
         "severe bleeding"
     ]
+
+    for word in emergency_words:
+        if word in message:
+            return "🚨 Emergency Alert Agent"
+
+    if "stress" in message or "anxiety" in message:
+        return "🧠 Mental Wellness Agent"
+
+    elif "sleep" in message or "diet" in message:
+        return "🥗 Lifestyle Agent"
+
+    elif "pain" in message or "fever" in message:
+        return "🩺 Symptom Agent"
+
+    else:
+        return "📚 Health Education Agent"
 
     for word in emergency_words:
         if word in message.lower():
