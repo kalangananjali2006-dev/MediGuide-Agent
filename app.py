@@ -23,20 +23,36 @@ st.info(
 # Agent selection demo
 def choose_agent(message):
 
-    message = message.lower()
+    import google.generativeai as genai
 
-    if "stress" in message or "anxiety" in message:
-        return "🧠 Mental Wellness Agent"
+    model = genai.GenerativeModel("gemini-2.5-flash")
 
-    elif "sleep" in message or "diet" in message or "exercise" in message:
-        return "🥗 Lifestyle Agent"
+    prompt = f"""
+You are a Coordinator Agent.
 
-    elif "pain" in message or "fever" in message:
-        return "🩺 Symptom Agent"
+Choose the correct agent:
 
-    else:
-        return "📚 Health Education Agent"
+🩺 Symptom Agent:
+For pain, fever, illness, symptoms
 
+🧠 Mental Wellness Agent:
+For stress, anxiety, emotions, mood
+
+🥗 Lifestyle Agent:
+For sleep, food, exercise, habits
+
+📚 Health Education Agent:
+For general health questions
+
+User message:
+{message}
+
+Reply only with the agent name.
+"""
+
+    response = model.generate_content(prompt)
+
+    return response.text
 
 # Chat box
 user = st.text_input(
